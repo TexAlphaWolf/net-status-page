@@ -1,0 +1,18 @@
+# /etc/systemd/system/upstatus.service  - runs forever, restarts on failure
+[Unit]
+Description=upstatus: service checks and status page
+After=network-online.target
+
+[Service]
+User=upstatus
+WorkingDirectory=/srv/status
+Environment=UPSTATUS_WEBHOOK=https://hooks.example.com/services/XXX
+ExecStart=/usr/local/bin/upstatus watch
+Restart=on-failure
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/srv/status
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

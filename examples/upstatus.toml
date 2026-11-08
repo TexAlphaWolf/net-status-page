@@ -1,0 +1,63 @@
+# upstatus: what to check and where to write the page. Paths are relative to this file.
+
+[site]
+title = "Homelab status"
+description = "Public status of my services."
+output = "public"            # the static page (index.html, status.json) is written here
+data = "upstatus-data"       # the history (a SQLite file) lives here
+retention_days = 90
+
+[defaults]                   # every check can override these
+interval = "1m"
+timeout = 5                  # seconds
+fail_after = 3               # failed checks in a row before a service is called down
+recover_after = 2            # good checks in a row before it is called up again
+
+[notify]                     # optional: a webhook for changes (the URL is read from an environment variable)
+webhook_env = "UPSTATUS_WEBHOOK"
+on = ["down", "up", "degraded"]
+
+[[check]]
+name = "Website"
+group = "Public"
+type = "http"
+url = "https://example.org/"
+expect_status = [200]
+contains = "Example Domain"
+
+[[check]]
+name = "Website certificate"
+group = "Public"
+type = "tls"
+host = "example.org"
+min_days = 14
+
+[[check]]
+name = "DNS"
+group = "Network"
+type = "dns"
+host = "example.org"
+
+[[check]]
+name = "Router"
+group = "Network"
+type = "ping"
+host = "192.168.1.1"
+
+[[check]]
+name = "SSH"
+group = "Network"
+type = "tcp"
+host = "192.168.1.10"
+port = 22
+
+[[check]]
+name = "Intranet"
+group = "Internal"
+type = "http"
+url = "https://intranet.example.lan:8443/health"
+expect_status = [200, 204]
+ca_file = "/etc/ssl/certs/internal-ca.pem"
+interval = "30s"
+timeout = 3
+fail_after = 2

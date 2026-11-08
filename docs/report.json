@@ -1,0 +1,236 @@
+{
+  "environment": {
+    "python": "3.13.16",
+    "system": "Linux x86_64",
+    "quick": false,
+    "seed": 1000
+  },
+  "real": {
+    "runs_each": 20,
+    "http_latency": [
+      {
+        "server_delay_ms": 0,
+        "measured_median_ms": 0.41,
+        "error_ms": 0.41
+      },
+      {
+        "server_delay_ms": 25,
+        "measured_median_ms": 25.91,
+        "error_ms": 0.91
+      },
+      {
+        "server_delay_ms": 100,
+        "measured_median_ms": 101.25,
+        "error_ms": 1.25
+      },
+      {
+        "server_delay_ms": 250,
+        "measured_median_ms": 251.13,
+        "error_ms": 1.13
+      }
+    ],
+    "failure_phrases": {
+      "answer 200": "HTTP 200",
+      "answer 503": "HTTP 503",
+      "text not in the page": "text not found",
+      "no answer in time": "timeout",
+      "nothing listening": "connection refused",
+      "name that does not exist": "name not found"
+    },
+    "timing": {
+      "tcp": {
+        "ok": 17,
+        "of": 20,
+        "median_ms": 0.01
+      },
+      "dns (localhost)": {
+        "ok": 20,
+        "of": 20,
+        "median_ms": 0.11
+      },
+      "ping (loopback)": {
+        "ok": 20,
+        "of": 20,
+        "median_ms": 0.01
+      }
+    },
+    "cycle": {
+      "rounds": 40,
+      "failed_rounds": 10,
+      "events": [
+        "down",
+        "up"
+      ],
+      "incident_start_error_min": 0.0,
+      "incident_end_error_min": 0.0,
+      "down_decided_after_rounds": 3
+    }
+  },
+  "pipeline": {
+    "days": 30,
+    "interval_s": 60,
+    "services_with_events": 40,
+    "services_quiet": 20,
+    "checks": 2592000,
+    "tracker": {
+      "outages": 200,
+      "found": 200,
+      "false_down": 0,
+      "blip_down": 2,
+      "slow": 65,
+      "found_slow": 65,
+      "slow_small": 15,
+      "false_slow": 0,
+      "down_events": 202,
+      "delay_checks_median": 2.0,
+      "delay_checks_max": 2.0,
+      "start_error_checks_max": 1.0,
+      "end_error_checks_max": 1.0,
+      "slow_delay_checks_median": 4.0,
+      "downtime_true_min": 19410,
+      "downtime_tracker_min": 18807,
+      "downtime_failed_checks_min": 32253
+    },
+    "naive_single_check": {
+      "outages": 200,
+      "found": 200,
+      "false_down": 12762,
+      "blip_down": 403,
+      "slow": 65,
+      "found_slow": 65,
+      "slow_small": 15,
+      "false_slow": 0,
+      "down_events": 13369,
+      "delay_checks_median": 0.0,
+      "delay_checks_max": 0.0,
+      "start_error_checks_max": 1.0,
+      "end_error_checks_max": 1.0,
+      "slow_delay_checks_median": 4.0,
+      "downtime_true_min": 19410,
+      "downtime_tracker_min": 32253,
+      "downtime_failed_checks_min": 32253
+    },
+    "quiet_tracker": {
+      "outages": 0,
+      "found": 0,
+      "false_down": 0,
+      "blip_down": 0,
+      "slow": 0,
+      "found_slow": 0,
+      "slow_small": 0,
+      "false_slow": 0,
+      "down_events": 0,
+      "delay_checks_median": null,
+      "delay_checks_max": null,
+      "start_error_checks_max": null,
+      "end_error_checks_max": null,
+      "slow_delay_checks_median": null,
+      "downtime_true_min": 0,
+      "downtime_tracker_min": 0,
+      "downtime_failed_checks_min": 4379
+    },
+    "quiet_naive": {
+      "outages": 0,
+      "found": 0,
+      "false_down": 4359,
+      "blip_down": 0,
+      "slow": 0,
+      "found_slow": 0,
+      "slow_small": 0,
+      "false_slow": 0,
+      "down_events": 4359,
+      "delay_checks_median": null,
+      "delay_checks_max": null,
+      "start_error_checks_max": null,
+      "end_error_checks_max": null,
+      "slow_delay_checks_median": null,
+      "downtime_true_min": 0,
+      "downtime_tracker_min": 4379,
+      "downtime_failed_checks_min": 4379
+    },
+    "quiet_naive_slow_alerts": 2630,
+    "quiet_answers": 859621,
+    "quiet_checks": 864000,
+    "blips_injected": 400
+  },
+  "sweep": {
+    "days": 30,
+    "flaky_loss": 0.03,
+    "steady_loss": 0.005,
+    "rows": [
+      {
+        "fail_after": 1,
+        "steady_found": 100,
+        "steady_outages": 100,
+        "steady_false_outages": 4215,
+        "steady_blip_alerts": 200,
+        "steady_delay_checks_median": 0.0,
+        "flaky_found": 50,
+        "flaky_outages": 50,
+        "flaky_false_outages": 12138,
+        "flaky_delay_checks_median": 0.0
+      },
+      {
+        "fail_after": 2,
+        "steady_found": 100,
+        "steady_outages": 100,
+        "steady_false_outages": 22,
+        "steady_blip_alerts": 91,
+        "steady_delay_checks_median": 1.0,
+        "flaky_found": 50,
+        "flaky_outages": 50,
+        "flaky_false_outages": 371,
+        "flaky_delay_checks_median": 1.0
+      },
+      {
+        "fail_after": 3,
+        "steady_found": 100,
+        "steady_outages": 100,
+        "steady_false_outages": 1,
+        "steady_blip_alerts": 2,
+        "steady_delay_checks_median": 2.0,
+        "flaky_found": 50,
+        "flaky_outages": 50,
+        "flaky_false_outages": 14,
+        "flaky_delay_checks_median": 2.0
+      },
+      {
+        "fail_after": 4,
+        "steady_found": 100,
+        "steady_outages": 100,
+        "steady_false_outages": 0,
+        "steady_blip_alerts": 0,
+        "steady_delay_checks_median": 3.0,
+        "flaky_found": 50,
+        "flaky_outages": 50,
+        "flaky_false_outages": 0,
+        "flaky_delay_checks_median": 3.0
+      },
+      {
+        "fail_after": 5,
+        "steady_found": 100,
+        "steady_outages": 100,
+        "steady_false_outages": 0,
+        "steady_blip_alerts": 0,
+        "steady_delay_checks_median": 4.0,
+        "flaky_found": 50,
+        "flaky_outages": 50,
+        "flaky_false_outages": 0,
+        "flaky_delay_checks_median": 4.0
+      }
+    ]
+  },
+  "cost": {
+    "checks": 50,
+    "days": 7,
+    "results": 504000,
+    "insert_s": 1.48,
+    "page_s": 0.075,
+    "page_kib": 296.2,
+    "json_s": 0.075,
+    "db_mib": 29.7,
+    "bytes_per_result": 61.7,
+    "record_ms": 1.78,
+    "mib_per_check_year_1min": 30.9
+  }
+}

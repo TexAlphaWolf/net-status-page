@@ -1,0 +1,4 @@
+# crontab -e   (Linux, macOS): no daemon needed. `run` does the checks that are due and rewrites the page.
+* * * * *    cd /srv/status && upstatus run >/dev/null
+# once a day, a line if something is down or the history is not usable (exit code 1 or 2)
+15 8 * * *   cd /srv/status && upstatus status || echo "upstatus: look at the status page"
