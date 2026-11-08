@@ -12,15 +12,16 @@ $secure = @("--read-only", "--cap-drop", "ALL", "--security-opt", "no-new-privil
 
 # Windows PowerShell 5.1 turns a program's message on stderr into an error under "Stop": the commands that are
 # expected to fail run with errors not terminating, and only their exit code is looked at.
-function Invoke-Us([int[]]$Allowed = @(0)) {
+function Invoke-UsCode([int[]]$Allowed, [string[]]$UsArgs) {
     $old = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
-    $out = docker run --rm @secure $Image @args 2>&1
+    $out = docker run --rm @secure $Image @UsArgs 2>&1
     $code = $LASTEXITCODE
     $ErrorActionPreference = $old
-    if ($Allowed -notcontains $code) { throw "upstatus $args exited with $code : $out" }
+    if ($Allowed -notcontains $code) { throw "upstatus $UsArgs exited with $code : $out" }
     ($out | Out-String)
 }
+function Invoke-Us { Invoke-UsCode @(0) $args }
 function Read-Volume($path) {
     $out = docker run --rm --entrypoint cat -v "${vol}:/data" $Image $path
     if ($LASTEXITCODE -ne 0) { throw "cannot read $path" }
@@ -81,14 +82,14 @@ host = "localhost"
     Assert-Missing $page "<script"
 
     docker rm -f $srv | Out-Null
-    Invoke-Us -Allowed 0, 1 run --all | Out-Null
-    Invoke-Us -Allowed 1 run --all | Out-Null
-    $status = Invoke-Us -Allowed 1 status
+    Invoke-UsCode @(0, 1) @("run", "--all") | Out-Null
+    Invoke-UsCode @(1) @("run", "--all") | Out-Null
+    $status = Invoke-UsCode @(1) @("status")
     Assert-Contains $status "Web: DOWN"
     Assert-Contains $status "Resolver: up"
     Assert-Contains (Invoke-Us incidents) "Web: still going"
     Assert-Contains (Read-Volume "/data/public/index.html") "Partial outage"
-    Invoke-Us -Allowed 2 --config /nonexistent.toml validate | Out-Null
+    Invoke-UsCode @(2) @("--config", "/nonexistent.toml", "validate") | Out-Null
     Write-Host "docker end-to-end: OK"
 }
 finally {
