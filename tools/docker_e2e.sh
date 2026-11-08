@@ -65,8 +65,11 @@ grep -q 'All systems operational' "$TMP/index.html"
 docker rm -f "$SRV" >/dev/null
 "${RUN[@]}" run --all >/dev/null || true
 if "${RUN[@]}" run --all >/dev/null; then echo "expected exit 1 when a service is down" >&2; exit 1; fi
-"${RUN[@]}" status | tee /dev/stderr | grep -q '^Web: DOWN'
-"${RUN[@]}" status | grep -q '^Resolver: up'
+status_out="$("${RUN[@]}" status)" && { echo "expected exit 1 from status with a service down" >&2; exit 1; }
+status_out="$("${RUN[@]}" status || true)"                                        # status exits 1 while something is down
+echo "$status_out" >&2
+grep -q '^Web: DOWN' <<<"$status_out"
+grep -q '^Resolver: up' <<<"$status_out"
 "${RUN[@]}" incidents | tee /dev/stderr | grep -q 'Web: still going'
 docker run --rm --entrypoint cat -v "$VOL":/data "$IMAGE" /data/public/status.json | grep -q '"status": "down"'
 docker run --rm --entrypoint cat -v "$VOL":/data "$IMAGE" /data/public/index.html | grep -q 'Partial outage'
